@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoanEase - Employment & Income</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f5f8ff;padding:20px;}
+.container{
+max-width:420px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+.logo{width:120px;display:block;margin:0 auto 15px;}
+h2{text-align:center;color:#003b8e;margin-bottom:15px;}
+.progress-box{margin-bottom:20px;}
+.progress-text{display:flex;justify-content:space-between;color:#555;font-size:14px;}
+.progress{height:8px;background:#d9e6ff;border-radius:10px;margin-top:8px;}
+.bar{height:100%;width:80%;background:#0a7cff;border-radius:10px;}
+label{display:block;margin-top:12px;margin-bottom:6px;color:#333;font-weight:bold;}
+input,select{
+width:100%;
+padding:14px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:15px;
+}
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+background:#0a7cff;
+color:white;
+border:none;
+border-radius:30px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
+button:hover{background:#005fd6;}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo" alt="LoanEase">
+
+<h2>Employment & Income</h2>
+
+<div class="progress-box">
+<div class="progress-text">
+<span>Application Progress</span>
+<span>80%</span>
+</div>
+<div class="progress">
+<div class="bar"></div>
+</div>
+</div>
+
+<form action="review.html">
+
+<label>Occupation</label>
+<input type="text" placeholder="Enter your occupation" required>
+
+<label>Employment Type</label>
+<select required>
+<option value="">Select employment type</option>
+<option>Employed</option>
+<option>Self-employed</option>
+<option>Business Owner</option>
+<option>Student</option>
+<option>Unemployed</option>
+</select>
+
+<label>Monthly Income (USD)</label>
+<input type="number" placeholder="Enter your monthly income" required>
+
+<button type="submit">Continue</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
