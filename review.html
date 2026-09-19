@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoanEase - Review & Submit</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f5f8ff;padding:20px;}
+.container{
+max-width:420px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+.logo{width:120px;display:block;margin:0 auto 15px;}
+h2{text-align:center;color:#003b8e;margin-bottom:15px;}
+.progress-box{margin-bottom:20px;}
+.progress-text{display:flex;justify-content:space-between;color:#555;font-size:14px;}
+.progress{height:8px;background:#d9e6ff;border-radius:10px;margin-top:8px;}
+.bar{height:100%;width:100%;background:#0a7cff;border-radius:10px;}
+.card{
+background:#eef5ff;
+padding:15px;
+border-radius:15px;
+margin:15px 0;
+}
+.item{display:flex;justify-content:space-between;margin:8px 0;}
+button{
+width:100%;
+padding:15px;
+background:#0a7cff;
+color:white;
+border:none;
+border-radius:30px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+.success{
+display:none;
+text-align:center;
+padding:20px;
+}
+.ref{
+font-size:22px;
+font-weight:bold;
+color:#0a7cff;
+margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo" alt="LoanEase">
+
+<div id="reviewPage">
+
+<h2>Review Your Application</h2>
+
+<div class="progress-box">
+<div class="progress-text">
+<span>Application Progress</span>
+<span>100%</span>
+</div>
+<div class="progress">
+<div class="bar"></div>
+</div>
+</div>
+
+<div class="card">
+
+<div class="item"><span>Loan Amount</span><strong id="amount">USD 10,000</strong></div>
+<div class="item"><span>Status</span><strong>Ready to Submit</strong></div>
+
+</div>
+
+<button onclick="submitApplication()">Submit Application</button>
+
+</div>
+
+<div class="success" id="successPage">
+
+<h2>Application Submitted!</h2>
+
+<p>Your application has been received successfully.</p>
+
+<p>Reference Number</p>
+
+<div class="ref" id="refNumber"></div>
+
+<p style="margin-top:15px;color:#555;">
+We'll review your application and update you soon.
+</p>
+
+</div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const amount = params.get("amount");
+if(amount){
+document.getElementById("amount").innerHTML =
+"USD " + Number(amount).toLocaleString();
+}
+
+function submitApplication(){
+const ref="LE"+Math.floor(100000+Math.random()*900000);
+document.getElementById("reviewPage").style.display="none";
+document.getElementById("successPage").style.display="block";
+document.getElementById("refNumber").innerHTML=ref;
+}
+</script>
+
+</body>
+</html>
