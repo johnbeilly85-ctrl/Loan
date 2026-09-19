@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoanEase - Loan Information</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f5f8ff;padding:20px;}
+.container{
+max-width:420px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+.logo{width:120px;display:block;margin:0 auto 15px;}
+h2{text-align:center;color:#003b8e;}
+.amount{
+text-align:center;
+font-size:30px;
+font-weight:bold;
+color:#0a7cff;
+margin:15px 0;
+}
+.card{
+background:#eef5ff;
+padding:18px;
+border-radius:15px;
+margin:20px 0;
+}
+.card h3{color:#003b8e;margin-bottom:10px;}
+.card p{color:#555;line-height:1.5;}
+.btn{
+display:block;
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:30px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+text-decoration:none;
+text-align:center;
+}
+.apply{background:#0a7cff;color:white;}
+.question{background:white;color:#0a7cff;border:2px solid #0a7cff;}
+.progress-box{margin:20px 0;}
+.progress-text{display:flex;justify-content:space-between;color:#555;font-size:14px;}
+.progress{height:8px;background:#d9e6ff;border-radius:10px;margin-top:8px;}
+.bar{height:100%;width:60%;background:#0a7cff;border-radius:10px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo" alt="LoanEase">
+
+<div class="progress-box">
+<div class="progress-text">
+<span>Application Progress</span>
+<span>60%</span>
+</div>
+<div class="progress">
+<div class="bar"></div>
+</div>
+</div>
+
+<h2>Selected Amount</h2>
+
+<div class="amount" id="loanAmount">USD 10,000</div>
+
+<div class="card">
+<h3>Loan Information</h3>
+<p>
+Continue with your application by providing your occupation and monthly income.
+</p>
+</div>
+
+<a href="employment.html" class="btn apply">Apply Now</a>
+
+<a href="chat.html" class="btn question">Ask a Question</a>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const amount = params.get("amount");
+if(amount){
+document.getElementById("loanAmount").innerHTML =
+"USD " + Number(amount).toLocaleString();
+}
+</script>
+
+</body>
+</html>
