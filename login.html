@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoanEase Admin Login</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{
+background:#f5f8ff;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+.container{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+width:90%;
+max-width:400px;
+text-align:center;
+}
+.logo{width:120px;margin-bottom:15px;}
+h2{color:#003b8e;margin-bottom:20px;}
+input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:15px;
+}
+button{
+width:100%;
+padding:15px;
+background:#0a7cff;
+color:white;
+border:none;
+border-radius:30px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
+.error{
+color:red;
+margin-top:10px;
+display:none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo" alt="LoanEase">
+
+<h2>Admin Login</h2>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p class="error" id="error">Invalid username or password.</p>
+
+</div>
+
+<script>
+function login(){
+const user=document.getElementById("username").value;
+const pass=document.getElementById("password").value;
+
+if(user==="admin" && pass==="LoanEase123"){
+window.location.href="admin.html";
+}else{
+document.getElementById("error").style.display="block";
+}
+}
+</script>
+
+</body>
+</html>
