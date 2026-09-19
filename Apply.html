@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoanEase - Apply</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f5f8ff;padding:20px;}
+.container{
+max-width:420px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+.logo{width:120px;display:block;margin:0 auto 15px;}
+h2{text-align:center;color:#003b8e;margin-bottom:10px;}
+.progress-box{margin:20px 0;}
+.progress-text{display:flex;justify-content:space-between;color:#555;font-size:14px;}
+.progress{height:8px;background:#d9e6ff;border-radius:10px;margin-top:8px;}
+.bar{height:100%;width:20%;background:#0a7cff;border-radius:10px;}
+input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:15px;
+}
+button{
+width:100%;
+padding:15px;
+background:#0a7cff;
+color:white;
+border:none;
+border-radius:30px;
+font-size:17px;
+font-weight:bold;
+margin-top:15px;
+cursor:pointer;
+}
+button:hover{background:#005fd6;}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo" alt="LoanEase">
+
+<h2>Personal Details</h2>
+
+<div class="progress-box">
+<div class="progress-text">
+<span>Application Progress</span>
+<span>20%</span>
+</div>
+<div class="progress">
+<div class="bar"></div>
+</div>
+</div>
+
+<form action="loan.html">
+<input type="text" placeholder="Full Name" required>
+<input type="tel" placeholder="Phone Number" required>
+<input type="email" placeholder="Email" required>
+<input type="text" placeholder="ID Number" required>
+<input type="text" placeholder="PIN (Optional)">
+<button type="submit">Continue</button>
+</form>
+
+</div>
+
+</body>
+</html>
