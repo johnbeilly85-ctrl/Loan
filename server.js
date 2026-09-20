@@ -28,6 +28,48 @@ if (process.env.MONGODB_URI) {
   console.log("MONGODB_URI is not set");
 }
 
+// Loan Application Schema
+const loanApplicationSchema = new mongoose.Schema(
+  {
+    fullName: {
+      type: String,
+      required: true
+    },
+    phone: {
+      type: String,
+      required: true
+    },
+    loanPurpose: {
+      type: String,
+      required: true
+    },
+    amount: {
+      type: Number,
+      required: true
+    },
+    period: {
+      type: String,
+      required: true
+    },
+    processingFee: {
+      type: Number,
+      required: true
+    },
+    totalAmountDue: {
+      type: Number,
+      required: true
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+const LoanApplication = mongoose.model(
+  "LoanApplication",
+  loanApplicationSchema
+);
+
 // Home page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -39,6 +81,64 @@ app.get("/api/health", (req, res) => {
     success: true,
     message: "LoanEase server is running"
   });
+});
+
+// SUBMIT LOAN APPLICATION
+app.post("/api/apply", async (req, res) => {
+  try {
+    const {
+      fullName,
+      phone,
+      loanPurpose,
+      amount,
+      period,
+      processingFee,
+      totalAmountDue
+    } = req.body;
+
+    // Validate required fields
+    if (
+      !fullName ||
+      !phone ||
+      !loanPurpose ||
+      !amount ||
+      !period
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please complete all required fields."
+      });
+    }
+
+    // Create application
+    const application = new LoanApplication({
+      fullName,
+      phone,
+      loanPurpose,
+      amount,
+      period,
+      processingFee,
+      totalAmountDue
+    });
+
+    // Save to MongoDB
+    await application.save();
+
+    console.log("Loan application saved:", application._id);
+
+    res.status(201).json({
+      success: true,
+      message: "Application submitted successfully."
+    });
+
+  } catch (error) {
+    console.error("Application submission error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Unable to save your application. Please try again."
+    });
+  }
 });
 
 // Start server
