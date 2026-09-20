@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application Received - LoanEase</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#0057B8,#16A34A);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
+padding:20px;
+}
+.card{
+background:#fff;
+max-width:420px;
+width:100%;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.check{
+width:80px;
+height:80px;
+background:#16A34A;
+border-radius:50%;
+margin:0 auto 15px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:42px;
+color:white;
+}
+h1{color:#0057B8;}
+.id{
+background:#F0F9FF;
+padding:12px;
+border-radius:10px;
+font-weight:bold;
+margin:15px 0;
+}
+.ecocash{
+border:2px solid #0057B8;
+border-radius:25px;
+padding:10px;
+font-size:22px;
+font-weight:bold;
+margin:15px 0;
+}
+.blue{color:#0057B8;}
+.red{color:#E11D2E;}
+.btn{
+display:block;
+background:#0057B8;
+color:white;
+text-decoration:none;
+padding:14px;
+border-radius:12px;
+font-weight:bold;
+margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+<div class="check">✓</div>
+
+<h1>Application Received</h1>
+
+<p>Your LoanEase application has been submitted successfully.</p>
+
+<div class="id">
+Application ID: <span id="appId"></span>
+</div>
+
+<div class="ecocash">
+<span class="blue">Eco</span><span class="red">Cash</span>
+</div>
+
+<p>Our team will review your application and contact you.</p>
+
+<a href="index.html" class="btn">Back to Home</a>
+
+</div>
+
+<script>
+document.getElementById("appId").textContent =
+new URLSearchParams(window.location.search).get("id") || "Pending";
+</script>
+
+</body>
+</html>
