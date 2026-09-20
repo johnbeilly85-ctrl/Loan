@@ -1,57 +1,158 @@
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const path = require("path");
 
-// MongoDB Connection
+const app = express();
+const PORT = process.env.PORT || 10000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve all HTML/CSS/JS files from the project folder
+app.use(express.static(__dirname));
+
+// MongoDB connection
 if (process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.log("MongoDB Error:", err));
+    .then(() => {
+      console.log("MongoDB Connected Successfully");
+    })
+    .catch((error) => {
+      console.error("MongoDB Connection Error:", error.message);
+    });
+} else {
+  console.log("MONGODB_URI is not set");
 }
 
-// Loan Application Schema
-const ApplicationSchema = new mongoose.Schema({
-  id: String,
-  fullName: String,
-  phone: String,
-  idNumber: String,
-  amount: String,
-  status: { type: String, default: "Pending" },
-  createdAt: { type: Date, default: Date.now }
-});
+// Application schema
+const ApplicationSchema = new mongoose.Schema(
+  {
+    fullName: String,
+    phone: String,
+    email: String,
+    idNumber: String,
+    amount: String,
+    employment: String,
+    income: String,
+    purpose: String,
+    status: {
+      type: String,
+      default: "Pending"
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  {
+    collection: "applications"
+  }
+);
 
 const Application = mongoose.model("Application", ApplicationSchema);
 
-// Submit Application
-app.post("/api/apply", async (req, res) => {
+// Home page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// Apply page
+app.get("/apply", (req, res) => {
+  res.sendFile(path.join(__dirname, "apply.html"));
+});
+
+// Details page
+app.get("/details", (req, res) => {
+  res.sendFile(path.join(__dirname, "details.html"));
+});
+
+// Employment page
+app.get("/employment", (req, res) => {
+  res.sendFile(path.join(__dirname, "employment.html"));
+});
+
+// Loan page
+app.get("/loan", (req, res) => {
+  res.sendFile(path.join(__dirname, "loan.html"));
+});
+
+// Review page
+app.get("/review", (req, res) => {
+  res.sendFile(path.join(__dirname, "review.html"));
+});
+
+// Success page
+app.get("/success", (req, res) => {
+  res.sendFile(path.join(__dirname, "success.html"));
+});
+
+// Login page
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "login.html"));
+});
+
+// Admin page
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "admin.html"));
+});
+
+// Submit loan application
+app.post("/api/applications", async (req, res) => {
   try {
-    const application = new Application({
-      id: "LE" + Math.floor(100000 + Math.random() * 900000),
-      ...req.body
-    });
+    const application = new Application(req.body);
 
-    await application.save();
+    const savedApplication = await application.save();
 
-    res.json({
+    console.log("Application saved:", savedApplication._id);
+
+    res.status(201).json({
       success: true,
-      applicationId: application.id
+      message: "Application submitted successfully",
+      application: savedApplication
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false });
+  } catch (error) {
+    console.error("Application submission error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to submit application",
+      error: error.message
+    });
   }
 });
 
-// View Applications
+// Get all applications for admin
 app.get("/api/applications", async (req, res) => {
-  const apps = await Application.find().sort({ createdAt: -1 });
-  res.json(apps);
+  try {
+    const applications = await Application.find()
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      applications: applications
+    });
+  } catch (error) {
+    console.error("Error loading applications:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to load applications"
+    });
+  }
 });
 
-// Serve Website
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "LoanEase server is running"
+  });
 });
 
+// Start server
 app.listen(PORT, () => {
-  console.log(`LoanEase running on port ${PORT}`);
+  console.log(`LoanEase server running on port ${PORT}`);
 });
