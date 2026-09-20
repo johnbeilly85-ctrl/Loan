@@ -7,73 +7,189 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-body{background:#f5f8ff;padding:20px;}
+
+body{
+background:linear-gradient(135deg,#0057B8,#16A34A);
+padding:20px;
+}
+
 .container{
-max-width:420px;
+max-width:520px;
 margin:auto;
 background:white;
-padding:25px;
 border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,.1);
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
-.logo{width:120px;display:block;margin:0 auto 15px;}
-h2{text-align:center;color:#003b8e;margin-bottom:10px;}
-.progress-box{margin:20px 0;}
-.progress-text{display:flex;justify-content:space-between;color:#555;font-size:14px;}
-.progress{height:8px;background:#d9e6ff;border-radius:10px;margin-top:8px;}
-.bar{height:100%;width:20%;background:#0a7cff;border-radius:10px;}
-input{
+
+h1{
+color:#0057B8;
+text-align:center;
+margin-bottom:8px;
+}
+
+.subtitle{
+text-align:center;
+color:#16A34A;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin:12px 0 6px;
+font-weight:bold;
+}
+
+input,select{
 width:100%;
-padding:14px;
-margin:10px 0;
+padding:13px;
 border:1px solid #ccc;
 border-radius:10px;
 font-size:15px;
 }
+
+.summary{
+background:#F0F9FF;
+border-radius:12px;
+padding:15px;
+margin:18px 0;
+}
+
+.summary p{margin:8px 0;font-weight:bold;}
+
 button{
 width:100%;
 padding:15px;
-background:#0a7cff;
+background:#0057B8;
 color:white;
 border:none;
-border-radius:30px;
-font-size:17px;
+border-radius:12px;
+font-size:18px;
 font-weight:bold;
-margin-top:15px;
 cursor:pointer;
 }
-button:hover{background:#005fd6;}
-</style>
 
+button:hover{background:#00408A;}
+
+.back{
+display:block;
+text-align:center;
+margin-top:15px;
+color:#0057B8;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
-<img src="logo.png" class="logo" alt="LoanEase">
+<h1>LoanEase</h1>
+<p class="subtitle">Quick Loans • Better Tomorrow</p>
 
-<h2>Personal Details</h2>
+<form id="loanForm">
 
-<div class="progress-box">
-<div class="progress-text">
-<span>Application Progress</span>
-<span>20%</span>
-</div>
-<div class="progress">
-<div class="bar"></div>
-</div>
+<label>Full Name</label>
+<input type="text" name="fullName" required>
+
+<label>Phone Number</label>
+<input type="tel" name="phone" required>
+
+<label>Email Address</label>
+<input type="email" name="email" required>
+
+<label>Country</label>
+<input type="text" name="country" required>
+
+<label>National ID / Passport</label>
+<input type="text" name="idNumber" required>
+
+<label>Credit Score PIN (Optional)</label>
+<input type="text" name="pin">
+
+<label>Loan Amount</label>
+<select id="loanAmount" name="loanAmount" required>
+<option value="">Select Amount</option>
+<option value="300">USD 300</option>
+<option value="500">USD 500</option>
+<option value="1000">USD 1,000</option>
+<option value="2000">USD 2,000</option>
+<option value="5000">USD 5,000</option>
+<option value="10000">USD 10,000</option>
+<option value="20000">USD 20,000</option>
+<option value="50000">USD 50,000</option>
+</select>
+
+<label>Purpose of Loan</label>
+<select name="loanPurpose" required>
+<option value="">Select Purpose</option>
+<option>Medical</option>
+<option>School Fees</option>
+<option>Business</option>
+<option>Rent</option>
+<option>Farming</option>
+<option>Personal Use</option>
+<option>Others</option>
+</select>
+
+<label>Repayment Period</label>
+<select name="repaymentPeriod" required>
+<option value="">Select Period</option>
+<option>1 Month</option>
+<option>3 Months</option>
+<option>6 Months</option>
+<option>1 Year</option>
+<option>2 Years</option>
+</select>
+
+<div class="summary">
+<p>Processing Fee (10%): <span id="fee">USD 0</span></p>
+<p>Total Amount Due: <span id="total">USD 0</span></p>
 </div>
 
-<form action="loan.html">
-<input type="text" placeholder="Full Name" required>
-<input type="tel" placeholder="Phone Number" required>
-<input type="email" placeholder="Email" required>
-<input type="text" placeholder="ID Number" required>
-<input type="text" placeholder="PIN (Optional)">
-<button type="submit">Continue</button>
+<button type="submit">Submit Application</button>
+
 </form>
 
+<a href="index.html" class="back">← Back to Home</a>
+
 </div>
+
+<script>
+const amount=document.getElementById("loanAmount");
+const fee=document.getElementById("fee");
+const total=document.getElementById("total");
+
+amount.addEventListener("change",()=>{
+const value=Number(amount.value)||0;
+const f=value*0.10;
+fee.textContent="USD "+f.toFixed(2);
+total.textContent="USD "+(value+f).toFixed(2);
+});
+
+document.getElementById("loanForm").addEventListener("submit",async(e)=>{
+e.preventDefault();
+
+const data=Object.fromEntries(new FormData(e.target).entries());
+
+const res=await fetch("/api/apply",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+});
+
+const result=await res.json();
+
+alert("Application submitted successfully. Your ID: "+result.id);
+
+e.target.reset();
+fee.textContent="USD 0";
+total.textContent="USD 0";
+});
+</script>
 
 </body>
 </html>
