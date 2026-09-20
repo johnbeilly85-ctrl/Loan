@@ -1,39 +1,3 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const path = require("path");
-
-const app = express();
-const PORT = process.env.PORT || 10000;
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
-
-// Loan Application Schema
-const ApplicationSchema = new mongoose.Schema({
-  id: String,
-  fullName: String,
-  email: String,
-  phone: String,
-  country: String,
-  nationalId: String,
-  creditPin: String,
-  loanAmount: String,
-  repaymentPeriod: String,
-  processingFee: String,
-  totalAmount: String,
-  status: {
-    type: String,
-    default: "Pending"
-  },
-  createdAt: {
-    type: Date,
     default: Date.now
   }
 });
@@ -109,5 +73,4 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  consol
