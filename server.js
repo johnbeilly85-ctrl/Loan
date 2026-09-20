@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -8,10 +9,18 @@ const PORT = process.env.PORT || 10000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files
+app.use(express.static(__dirname));
+
+// Homepage
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
 // Loan Application Schema
 const ApplicationSchema = new mongoose.Schema({
@@ -51,7 +60,6 @@ app.post("/api/apply", async (req, res) => {
       success: true,
       id: application.id
     });
-
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -62,8 +70,15 @@ app.post("/api/apply", async (req, res) => {
 
 // View Applications
 app.get("/api/applications", async (req, res) => {
-  const applications = await Application.find().sort({createdAt:-1});
-  res.json(applications);
+  try {
+    const applications = await Application.find().sort({ createdAt: -1 });
+    res.json(applications);
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch applications."
+    });
+  }
 });
 
 app.listen(PORT, () => {
